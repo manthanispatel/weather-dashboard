@@ -1,12 +1,22 @@
 import os
 import requests
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # <-- 1. Import the security tool
 from dotenv import load_dotenv
 
 # 1. Unlock the .env safe
 load_dotenv()
 
 app = FastAPI()
+
+# ADD THIS NEW CORS SETUP ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"], # Tell Python to explicitly trust your React app
+    allow_credentials=True,
+    allow_methods=["*"], # Allow all types of web requests
+    allow_headers=["*"],
+)
 
 # 2. Grab the API key securely from the safe
 API_KEY = os.getenv("API_KEY")
